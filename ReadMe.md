@@ -1,4 +1,4 @@
-# Disclaimer
+# Description
 
 This repository contains an inventory management system built with Java.
 
