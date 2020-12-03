@@ -6,6 +6,7 @@ public class Order {
   private String status;
   private LocalDate issuedDate;
   private double totalPrice = 0;
+  private String deliveryVehicle = "None";
   private ArrayList<Product> products = new ArrayList<Product>();
 
   private static int orderCounter = 0;
@@ -14,8 +15,7 @@ public class Order {
   public Order(int[] barcodes) {
     this.orderID = ++Order.orderCounter;
     this.issuedDate = LocalDate.now();
-    this.status = "pending"; // pending, delivering, completed, cancelled
-    // this.totalPrice = price;
+    this.status = "pending"; // pending, readyfordelivery, delivering, completed, cancelled
 
     // Get products and save them in the order
     for (int barcode : barcodes) {
@@ -23,6 +23,7 @@ public class Order {
         if (Inventory.getProducts().get(i).getBarcode() == barcode) {
           this.products.add(Inventory.getProducts().get(i));
           this.totalPrice = this.totalPrice + Inventory.getProducts().get(i).getUnitPrice();
+          Inventory.getProducts().remove(i);
         }
       }
     }
@@ -31,6 +32,10 @@ public class Order {
   // ACCESSORS
   public int getOrderID() {
     return orderID;
+  }
+
+  public String getDeliveryVehicle() {
+    return deliveryVehicle;
   }
 
   public String getStatus() {
@@ -58,6 +63,39 @@ public class Order {
     orders.add(new Order(barcodes));
 
     return orders;
+  }
+
+  public static void assignDeliveryVehicle(int orderID, String vehicle) {
+    for (int i = 0; i < orders.size(); i++) {
+      if (orders.get(i).getOrderID() == orderID) {
+        orders.get(i).deliveryVehicle = vehicle;
+      }
+    }
+  }
+
+  public static void cancel(int orderID) throws Exception {
+    for (int i = 0; i < orders.size(); i++) {
+      if (orders.get(i).getOrderID() == orderID) {
+        orders.get(i).changeStatus("cancelled");
+      }
+    }
+  }
+
+  public static void readyForDelivery(int orderID) throws Exception {
+    for (int i = 0; i < orders.size(); i++) {
+      if (orders.get(i).getOrderID() == orderID) {
+        orders.get(i).changeStatus("readyfordelivery");
+      }
+    }
+  }
+
+  private void changeStatus(String status) throws Exception {
+    if (status != "pending" && status != "readyfordelivery" && status != "completed" && status != "delivering"
+        && status != "cancelled") {
+      throw new Exception("Undefined order status");
+    }
+
+    this.status = status;
   }
 
   public static ArrayList<Order> removeOrder(int orderID) throws Exception {

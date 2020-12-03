@@ -19,13 +19,42 @@ public class Main {
     Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "tulip"));
     // Add products
     Inventory.addProduct(new Bouquet("Flowerista", 20, 2, 5));
-    Inventory.addProduct(new Bouquet("Flowerista", 10, 1, 1));
+    Inventory.addProduct(new FlowerPot("Potter", 12, 20));
     printInventory();
 
     printOrders();
     Order
         .create(new int[] { Inventory.getProducts().get(0).getBarcode(), Inventory.getProducts().get(1).getBarcode() });
+    // Order.create(new int[] { Inventory.getProducts().get(0).getBarcode() });
+    printInventory();
     printOrders();
+
+    printVehicles();
+    Vehicle.addVehicle("MYX281", "Mazda 2");
+    printVehicles();
+    Vehicle.assignDelivery("MYX281", Order.getOrders().get(0).getOrderID());
+    printVehicles();
+    printOrders();
+
+  }
+
+  static void printVehicles() {
+    System.out.println("\u001B[32m======== VEHICLES ========\u001B[0m");
+
+    if (Vehicle.getVehicles().size() <= 0) {
+      System.out.println("No vehicles found.");
+    } else {
+      for (Vehicle vehicle : Vehicle.getVehicles()) {
+        System.out.println("License plate: " + vehicle.getLicensePlate());
+        System.out.println("Model: " + vehicle.getModel());
+        System.out.println("Orders: ");
+        for (Integer order : vehicle.getOrderIDs()) {
+          System.out.println("ID: " + order);
+        }
+      }
+    }
+
+    System.out.println("\u001B[32m========================\u001B[0m");
 
   }
 
@@ -40,10 +69,12 @@ public class Main {
         System.out.println("Status: " + order.getStatus());
         System.out.println("Total price: " + order.getTotalPrice());
         System.out.println("Issued: " + order.getIssuedDate());
+        System.out.println("Delivery vehicle: " + order.getDeliveryVehicle());
         System.out.println("Order products: ");
         for (Product orderProducts : order.getProducts()) {
           System.out.println("Product name: " + orderProducts.getProductName());
           System.out.println("Unit price: " + orderProducts.getUnitPrice());
+          System.out.println("Barcode: " + orderProducts.getBarcode());
         }
         System.out.println("\u001B[36m----------\u001B[0m");
       }
