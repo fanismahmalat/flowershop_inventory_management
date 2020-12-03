@@ -1,6 +1,8 @@
+import java.util.ArrayList;
+
 public class Inventory {
   public static Flower[] flowers = new Flower[0];
-  public static Product[] products = new Product[0];
+  public static ArrayList<Product> products = new ArrayList<Product>();
 
   // ACCESSORS
   public static int getRoses() {
@@ -27,7 +29,7 @@ public class Inventory {
     return tulips;
   }
 
-  public static Product[] getProducts() {
+  public static ArrayList<Product> getProducts() {
     return products;
   }
 
@@ -36,7 +38,7 @@ public class Inventory {
   }
 
   public static int productsLength() {
-    return products.length;
+    return products.size();
   }
 
   // MODIFIERS
@@ -86,49 +88,24 @@ public class Inventory {
     return flowers;
   }
 
-  public static Product[] addProduct(Product product) {
-    Product[] newProducts = new Product[products.length + 1];
-
-    for (int i = 0; i < newProducts.length; i++) {
-      if (i == newProducts.length - 1) {
-        newProducts[i] = product;
-      } else {
-        newProducts[i] = products[i];
+  public static Product getByBarcode(int barcode) throws Exception {
+    for (int i = 0; i < products.size(); i++) {
+      if (products.get(i).getBarcode() == barcode) {
+        return products.get(i);
       }
     }
 
-    products = newProducts;
+    throw new Exception();
+  }
+
+  public static ArrayList<Product> addProduct(Product product) {
+    products.add(product);
 
     return products;
   }
 
-  public static Product[] removeProduct(int barcode) throws Exception {
-    Product[] newProducts = new Product[products.length - 1];
-    boolean indexFound = false;
-
-    // Find the index of the product
-    for (int i = 0; i < products.length; i++) {
-      if (products[i].getBarcode() == barcode) {
-        int index = i;
-
-        for (int j = 0, k = 0; j < products.length; j++) {
-          if (j != index) {
-            newProducts[k] = products[j];
-            k++;
-          }
-        }
-
-        indexFound = true;
-        break;
-      }
-    }
-
-    if (!indexFound) {
-      System.out.println("Cannot find the product with barcode " + barcode);
-      throw new Exception();
-    }
-
-    products = newProducts;
+  public static ArrayList<Product> removeProduct(int barcode) throws Exception {
+    products.removeIf(product -> product.getBarcode() == barcode);
 
     return products;
   }

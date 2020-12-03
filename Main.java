@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Main {
   static Inventory inventory;
@@ -6,25 +7,58 @@ public class Main {
   public static void main(String[] args) throws Exception {
 
     printInventory();
-    Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 01), "red", 10, "rose"));
-    Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 01), "yellow", 10, "rose"));
-    Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 01), "purple", 8, "tulip"));
+    // Add flowers
+    Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "rose"));
+    Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "rose"));
+    Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "rose"));
+    Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "tulip"));
+    Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "tulip"));
+    Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "tulip"));
+    Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "tulip"));
+    Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "tulip"));
+    Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "tulip"));
+    // Add products
+    Inventory.addProduct(new Bouquet("Flowerista", 20, 2, 5));
+    Inventory.addProduct(new Bouquet("Flowerista", 10, 1, 1));
     printInventory();
-    Inventory.addProduct(new Bouquet("Buket", 25, 1, 0));
-    Inventory.addProduct(new Bouquet("Buket", 25, 0, 1));
-    Inventory.addProduct(new FlowerPot("Glastroua", 25, 30));
-    // Inventory.addProduct(new FlowerPot("Pot", 25, 20));
-    printInventory();
-    // System.out.println(x.);
+
+    printOrders();
+    Order
+        .create(new int[] { Inventory.getProducts().get(0).getBarcode(), Inventory.getProducts().get(1).getBarcode() });
+    printOrders();
+
+  }
+
+  static void printOrders() {
+    System.out.println("\u001B[32m======== ORDERS ========\u001B[0m");
+
+    if (Order.getOrders().size() <= 0) {
+      System.out.println("No orders found.");
+    } else {
+      for (Order order : Order.getOrders()) {
+        System.out.println("Order ID: " + order.getOrderID());
+        System.out.println("Status: " + order.getStatus());
+        System.out.println("Total price: " + order.getTotalPrice());
+        System.out.println("Issued: " + order.getIssuedDate());
+        System.out.println("Order products: ");
+        for (Product orderProducts : order.getProducts()) {
+          System.out.println("Product name: " + orderProducts.getProductName());
+          System.out.println("Unit price: " + orderProducts.getUnitPrice());
+        }
+        System.out.println("\u001B[36m----------\u001B[0m");
+      }
+    }
+
+    System.out.println("\u001B[32m========================\u001B[0m");
   }
 
   static void printInventory() {
     System.out.println("\u001B[32m======== INVENTORY ========\u001B[0m");
     System.out.println("\u001B[33m==== PRODUCTS ====\u001B[0m");
 
-    Product[] products = Inventory.getProducts();
+    ArrayList<Product> products = Inventory.getProducts();
 
-    if (products.length <= 0) {
+    if (products.size() <= 0) {
       System.out.println("No products in the inventory.");
     } else {
       for (Product product : products) {
@@ -59,6 +93,6 @@ public class Main {
       }
     }
 
-    System.out.println("\u001B[32m===========================\u001B[0m");
+    System.out.println("\u001B[32m========================\u001B[0m");
   }
 }
