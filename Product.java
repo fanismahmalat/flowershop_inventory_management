@@ -15,14 +15,6 @@ public class Product {
   }
 
   // ACCESSORS
-  public int getNumOfRoses() {
-    return 0;
-  }
-
-  public int getNumOfTulips() {
-    return 0;
-  }
-
   public int getBarcode() {
     return this.barcode;
   }

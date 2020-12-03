@@ -1,8 +1,8 @@
-public class Buket extends Product {
+public class Bouquet extends Product {
   public int numOfRoses;
   public int numOfTulips;
 
-  public Buket(String name, double price, int roses, int tulips) throws Exception {
+  public Bouquet(String name, double price, int roses, int tulips) throws Exception {
     super(name, price);
 
     // Check if enough flowers in inventory
@@ -30,12 +30,10 @@ public class Buket extends Product {
   }
 
   // ACCESSORS
-  @Override
   public int getNumOfRoses() {
     return this.numOfRoses;
   }
 
-  @Override
   public int getNumOfTulips() {
     return this.numOfTulips;
   }
