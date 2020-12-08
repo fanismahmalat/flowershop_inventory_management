@@ -6,8 +6,9 @@ public class Main {
 
   public static void main(String[] args) throws Exception {
 
+    // Empty inventory
     printInventory();
-    // Add flowers
+    // Add flowers to inventory
     Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "rose"));
     Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "rose"));
     Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "rose"));
@@ -17,25 +18,32 @@ public class Main {
     Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "tulip"));
     Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "tulip"));
     Inventory.addFlower(new Flower(LocalDate.of(2021, 01, 02), "red", 10, "tulip"));
-    // Add products
+    // Add products to inventory using the flowers
     Inventory.addProduct(new Bouquet("Flowerista", 20, 2, 5));
     Inventory.addProduct(new FlowerPot("Potter", 12, 20));
+
     printInventory();
 
+    // No orders
     printOrders();
+    // Create order with the products
     Order
         .create(new int[] { Inventory.getProducts().get(0).getBarcode(), Inventory.getProducts().get(1).getBarcode() });
-    // Order.create(new int[] { Inventory.getProducts().get(0).getBarcode() });
+
     printInventory();
     printOrders();
 
+    // No vehicles
     printVehicles();
+    // Add new vehicle
     Vehicle.addVehicle("MYX281", "Mazda 2");
     printVehicles();
+
+    // Assign delivery of order to vehicle
     Vehicle.assignDelivery("MYX281", Order.getOrders().get(0).getOrderID());
+
     printVehicles();
     printOrders();
-
   }
 
   static void printVehicles() {
